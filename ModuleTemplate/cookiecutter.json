@@ -1,0 +1,15 @@
+{
+  "full_name": "Cameron Bell",
+  "email": "cabell132@hotmail.com",
+  "github_username": "cameronbell",
+  "project_name": "awesome-module",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "module_description": "A modern Python module.",
+  "python_version": "3.12",
+  "initial_version": "0.1.0",
+  "license": ["MIT", "Apache-2.0", "Proprietary"],
+  "include_cli": ["typer", "none"],
+  "include_docs": ["mkdocs", "none"],
+  "include_docker": "n",
+  "enable_precommit": "y"
+}

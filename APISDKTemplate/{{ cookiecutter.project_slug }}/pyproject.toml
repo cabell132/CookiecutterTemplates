@@ -1,0 +1,163 @@
+[project]
+name = "{{ cookiecutter.project_slug.replace('_', '-') }}"
+version = "{{ cookiecutter.initial_version }}"
+description = "{{ cookiecutter.module_description }}"
+readme = "README.md"
+requires-python = ">={{ cookiecutter.python_version }}"
+authors = [
+  { name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}" }
+]
+dependencies = [
+  "requests>=2.31",
+  "pydantic>=2.0",
+  "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+  "ruff>=0.6",
+  "ty>=0.0.1a8",
+  "pydoclint>=0.6.0",
+  "poethepoet>=0.25",
+  "pre-commit>=3.8",
+]
+
+[tool.uv]
+managed = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra --strict-markers --strict-config --maxfail=1"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py{{ cookiecutter.python_version.replace('.', '') }}"
+
+[tool.ruff.lint]
+select = [
+    "A",
+    "ANN",
+    "ASYNC",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "D",
+    "DTZ",
+    "E",
+    "EM",
+    "ERA",
+    "F",
+    "FBT",
+    "FLY",
+    "FURB",
+    "G",
+    "I",
+    "ICN",
+    "INP",
+    "INT",
+    "ISC",
+    "LOG",
+    "N",
+    "PERF",
+    "PGH",
+    "PIE",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+    "PT",
+    "PTH",
+    "PYI",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "SLOT",
+    "T10",
+    "T20",
+    "TID",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
+]
+ignore = [
+    "ANN401",
+    "E501",
+    "ISC001",
+    "I001",
+    "PGH003",
+    "PERF203",
+    "FBT001",
+    "FBT002",
+    "PLR2004",
+    "S101",
+    "RET504",
+]
+unfixable = ["ERA001", "F841", "RUF100", "T201", "T203"]
+external = ["DOC"]  # pydoclint codes - don't remove these noqa comments
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 100
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["SLF001", "TID252", "F401", "F403", "E402", "S105", "D"]
+
+[tool.ty.environment]
+python-version = "{{ cookiecutter.python_version }}"
+
+[tool.ty.src]
+include = ["{{ cookiecutter.project_slug }}"]
+
+[tool.ty.rules]
+# Ignore rules that are too noisy for early-stage projects
+unknown-argument = "ignore"
+possibly-missing-attribute = "ignore"
+unused-ignore-comment = "ignore"
+
+[tool.pydoclint]
+style = "google"
+arg-type-hints-in-docstring = true
+arg-type-hints-in-signature = true
+check-return-types = true
+check-yield-types = true
+require-return-section-when-returning-nothing = false
+check-class-attributes = false
+exclude = '\.ipynb$|^tests/'
+skip-checking-short-docstrings = false
+allow-init-docstring = true
+
+[tool.coverage.run]
+branch = true
+source = ["{{ cookiecutter.project_slug }}"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.poe.tasks.format]
+cmd = "ruff format {{ cookiecutter.project_slug }} tests"
+
+[tool.poe.tasks.lint]
+cmd = "ruff check {{ cookiecutter.project_slug }} tests"
+
+[tool.poe.tasks.typecheck]
+cmd = "ty check"
+
+[tool.poe.tasks.doclint]
+cmd = "pydoclint {{ cookiecutter.project_slug }}"
+
+[tool.poe.tasks.test]
+cmd = "pytest --maxfail=1 --disable-warnings"

@@ -1,0 +1,17 @@
+{
+    "hooks": {
+        "Stop": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": ".claude/hooks/lint.sh"
+                    }
+                ]
+            }
+        ]
+    },
+    "env": {
+        "CLAUDE_CODE_TASK_LIST_ID": "{{ cookiecutter.project_slug }}"
+    }
+}

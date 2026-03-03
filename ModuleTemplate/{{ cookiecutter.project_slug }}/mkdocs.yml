@@ -1,0 +1,11 @@
+{% if cookiecutter.include_docs == "mkdocs" -%}
+site_name: "{{ cookiecutter.project_name }}"
+site_description: "{{ cookiecutter.module_description }}"
+theme:
+  name: material
+nav:
+  - Home: index.md
+docs_dir: docs
+{% else -%}
+# MkDocs disabled
+{% endif -%}

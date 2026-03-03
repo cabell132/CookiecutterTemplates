@@ -1,0 +1,17 @@
+{
+  "full_name": "Cameron Bell",
+  "email": "cabell132@hotmail.com",
+  "github_username": "cameronbell",
+  "project_name": "awesome-sdk",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "service_name": "Awesome",
+  "api_base_url": "https://api.example.com/v1/",
+  "module_description": "Python SDK for the Awesome API.",
+  "python_version": "3.12",
+  "initial_version": "0.1.0",
+  "auth_mode": ["api_key", "bearer_token", "oauth"],
+  "auth_env_var_name": "AWESOME_API_KEY",
+  "license": ["MIT", "Apache-2.0", "Proprietary"],
+  "enable_precommit": "y",
+  "create_github_repo": "n"
+}
