@@ -30,6 +30,8 @@ dev = [
   "poethepoet>=0.25",
   "pre-commit>=3.8",
   "pip-audit>=2.7",
+  "sloppylint>=0.5.1",
+  "ai-slop-detector>=2.7.0",
 ]
 {%- if cookiecutter.include_docs == "mkdocs" %}
 docs = [
@@ -74,8 +76,12 @@ max-doc-length = 100
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
+[tool.ruff.lint.pylint]
+max-args = 3
+max-statements = 20
+
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["SLF001", "TID252", "F401", "F403", "E402", "S105", "D"]
+"tests/**" = ["ANN", "SLF001", "TID252", "F401", "F403", "E402", "S105", "D", "PLC0415"]
 
 [tool.ty.environment]
 python-version = "{{ cookiecutter.python_version }}"

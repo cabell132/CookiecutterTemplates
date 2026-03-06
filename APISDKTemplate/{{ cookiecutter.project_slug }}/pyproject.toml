@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "{{ cookiecutter.project_slug.replace('_', '-') }}"
 version = "{{ cookiecutter.initial_version }}"
@@ -22,6 +26,9 @@ dev = [
   "pydoclint>=0.6.0",
   "poethepoet>=0.25",
   "pre-commit>=3.8",
+  "pip-audit>=2.7",
+  "sloppylint>=0.5.1",
+  "ai-slop-detector>=2.7.0",
 ]
 
 [tool.uv]
@@ -112,8 +119,12 @@ max-doc-length = 100
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
+[tool.ruff.lint.pylint]
+max-args = 3
+max-statements = 20
+
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["SLF001", "TID252", "F401", "F403", "E402", "S105", "D"]
+"tests/**" = ["ANN", "SLF001", "TID252", "F401", "F403", "E402", "S105", "D", "PLC0415"]
 
 [tool.ty.environment]
 python-version = "{{ cookiecutter.python_version }}"
@@ -146,6 +157,7 @@ source = ["{{ cookiecutter.project_slug }}"]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+fail_under = 80
 
 [tool.poe.tasks.format]
 cmd = "ruff format {{ cookiecutter.project_slug }} tests"
@@ -160,4 +172,14 @@ cmd = "ty check"
 cmd = "pydoclint {{ cookiecutter.project_slug }}"
 
 [tool.poe.tasks.test]
-cmd = "pytest --maxfail=1 --disable-warnings"
+cmd = "pytest --cov --maxfail=1 --disable-warnings"
+
+[tool.poe.tasks.format-check]
+cmd = "ruff format --check {{ cookiecutter.project_slug }} tests"
+
+[tool.poe.tasks.audit]
+cmd = "pip-audit"
+
+[tool.poe.tasks.check]
+sequence = ["format", "lint", "typecheck", "doclint", "test"]
+help = "Run all quality checks"
