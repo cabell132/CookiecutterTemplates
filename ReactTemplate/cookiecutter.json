@@ -1,0 +1,20 @@
+{
+  "full_name": "Cameron Bell",
+  "email": "cabell132@hotmail.com",
+  "github_username": "cameronbell",
+  "project_name": "My App",
+  "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+  "description": "A React TypeScript application",
+  "initial_version": "0.1.0",
+  "node_package_manager": ["bun", "pnpm", "npm"],
+  "license": ["MIT", "Apache-2.0", "Proprietary"],
+  "include_tanstack_query": ["yes", "no"],
+  "include_zustand": ["yes", "no"],
+  "include_router": ["yes", "no"],
+  "include_shadcn": ["yes", "no"],
+  "include_playwright": ["yes", "no"],
+  "include_docker": ["yes", "no"],
+  "enable_precommit": ["yes", "no"],
+  "include_docs": ["yes", "no"],
+  "ai_tools": ["all", "claude", "cursor", "copilot", "none"]
+}

@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 PROJECT_ROOT = Path(".")
@@ -41,9 +43,36 @@ def configure_options() -> None:
         remove_path(PROJECT_ROOT / ".pre-commit-config.yaml")
 
 
+def write_template_meta() -> None:
+    """Write .template.json with cookiecutter context for future syncs."""
+    template_meta = {
+        "template": "ModuleTemplate",
+        "template_repo": "gh:cabell132/CookiecutterTemplates",
+        "synced_at": datetime.now(tz=timezone.utc).strftime("%Y-%m-%d"),
+        "variables": {
+            "project_slug": "{{ cookiecutter.project_slug }}",
+            "python_version": "{{ cookiecutter.python_version }}",
+            "include_cli": "{{ cookiecutter.include_cli }}",
+            "include_docs": "{{ cookiecutter.include_docs }}",
+            "include_docker": "{{ cookiecutter.include_docker }}",
+            "enable_precommit": "{{ cookiecutter.enable_precommit }}",
+            "full_name": "{{ cookiecutter.full_name }}",
+            "email": "{{ cookiecutter.email }}",
+        },
+    }
+    (PROJECT_ROOT / ".template.json").write_text(
+        json.dumps(template_meta, indent=2) + "\n"
+    )
+
+
 def main() -> None:
     """Run post-generation configuration."""
     configure_options()
+    write_template_meta()
+
+    run(["git", "init"])
+    run(["git", "add", "."])
+    run(["git", "commit", "-m", "Initial scaffold from cookiecutter template"])
 
     if "{{ cookiecutter.enable_precommit }}".lower().startswith("y"):
         try:

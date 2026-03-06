@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 PROJECT_ROOT = Path(".")
@@ -29,8 +31,34 @@ def configure_options() -> None:
         remove_path(PROJECT_ROOT / ".pre-commit-config.yaml")
 
 
+def write_template_meta() -> None:
+    template_meta = {
+        "template": "APISDKTemplate",
+        "template_repo": "gh:cabell132/CookiecutterTemplates",
+        "synced_at": datetime.now(tz=timezone.utc).strftime("%Y-%m-%d"),
+        "variables": {
+            "project_slug": "{{ cookiecutter.project_slug }}",
+            "python_version": "{{ cookiecutter.python_version }}",
+            "service_name": "{{ cookiecutter.service_name }}",
+            "auth_mode": "{{ cookiecutter.auth_mode }}",
+            "auth_env_var_name": "{{ cookiecutter.auth_env_var_name }}",
+            "enable_precommit": "{{ cookiecutter.enable_precommit }}",
+            "full_name": "{{ cookiecutter.full_name }}",
+            "email": "{{ cookiecutter.email }}",
+        },
+    }
+    (PROJECT_ROOT / ".template.json").write_text(
+        json.dumps(template_meta, indent=2) + "\n"
+    )
+
+
 def main() -> None:
     configure_options()
+    write_template_meta()
+
+    run(["git", "init"])
+    run(["git", "add", "."])
+    run(["git", "commit", "-m", "Initial scaffold from cookiecutter template"])
 
     if "{{ cookiecutter.enable_precommit }}".lower().startswith("y"):
         init_code = run(["uv", "tool", "run", "pre-commit", "install"])

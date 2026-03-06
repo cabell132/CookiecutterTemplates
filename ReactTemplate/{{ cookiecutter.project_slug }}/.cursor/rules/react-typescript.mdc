@@ -1,0 +1,27 @@
+---
+description: React + TypeScript development rules for {{ cookiecutter.project_name }}
+globs: ["src/**/*.{ts,tsx}"]
+---
+
+## Stack
+- React 19, TypeScript (strict), Vite, Biome, Vitest, Tailwind CSS, Zod 4
+
+## Conventions
+- Feature-based folder structure: `src/features/<name>/{components,hooks,schemas,__tests__}/`
+- Types in `.ts` files only, never `.d.ts` for application types
+- Zod schemas as source of truth for types via `z.infer`
+- `safeParse` in UI code, never `parse`
+- Return types on exported functions
+- `as const` for config/route objects
+- Discriminated unions for state modeling
+- Error hierarchy: `AppError` > `ValidationError` | `RuntimeError`
+- Test behavior with RTL + userEvent, not implementation details
+
+## Quality Commands
+- `{{ cookiecutter.node_package_manager }} run typecheck` — tsc --noEmit
+- `{{ cookiecutter.node_package_manager }} run lint` — biome check
+- `{{ cookiecutter.node_package_manager }} run test` — vitest run
+- `{{ cookiecutter.node_package_manager }} run check` — full quality gate
+
+## Self-Improve Rule
+If you discover a pattern or convention not documented here, add it.
