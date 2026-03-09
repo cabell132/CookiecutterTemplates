@@ -1,13 +1,7 @@
 #!/bin/bash
-# Stop hook: Run ty type checker on modified Python files
+# Stop hook: Run ty type checker (respects [tool.ty.src] in pyproject.toml)
 
-modified_files=$(git diff --name-only --diff-filter=ACM HEAD -- '*.py' 2>/dev/null)
-untracked_files=$(git ls-files --others --exclude-standard -- '*.py' 2>/dev/null)
-all_files=$(echo -e "${modified_files}\n${untracked_files}" | grep -v '^$' | sort -u)
-
-[ -z "$all_files" ] && exit 0
-
-output=$(uv run ty check $all_files 2>&1)
+output=$(uv run ty check 2>&1)
 if [ $? -ne 0 ]; then
     line_count=$(echo "$output" | wc -l)
     if [ "$line_count" -gt 30 ]; then

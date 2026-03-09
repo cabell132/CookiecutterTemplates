@@ -1,17 +1,13 @@
 #!/bin/bash
-# PostToolUse hook: Run pydoclint on the edited Python file (skip test files)
+# Stop hook: Run pydoclint on all modified Python files (skip test files)
 
-input=$(cat)
-file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+modified_files=$(git diff --name-only --diff-filter=ACM HEAD -- '*.py' 2>/dev/null)
+untracked_files=$(git ls-files --others --exclude-standard -- '*.py' 2>/dev/null)
+all_files=$(echo -e "${modified_files}\n${untracked_files}" | grep -v '^$' | grep -v '/tests/' | sort -u)
 
-[ -z "$file_path" ] && exit 0
-[[ "$file_path" != *.py ]] && exit 0
-[ ! -f "$file_path" ] && exit 0
+[ -z "$all_files" ] && exit 0
 
-# Skip test files
-echo "$file_path" | grep -q '/tests/' && exit 0
-
-output=$(uv run pydoclint "$file_path" 2>&1)
+output=$(uv run pydoclint $all_files 2>&1)
 if [ $? -ne 0 ]; then
     line_count=$(echo "$output" | wc -l)
     if [ "$line_count" -gt 30 ]; then

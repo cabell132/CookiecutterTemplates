@@ -12,7 +12,8 @@
             {
                 "matcher": "Write|Edit",
                 "hooks": [
-                    { "type": "command", "command": ".claude/scripts/protect-init.sh" }
+                    { "type": "command", "command": ".claude/scripts/protect-init.sh" },
+                    { "type": "command", "command": ".claude/scripts/protect-config.sh" }
                 ]
             }
         ],
@@ -21,8 +22,6 @@
                 "matcher": "Write|Edit",
                 "hooks": [
                     { "type": "command", "command": ".claude/scripts/ruff-format.sh" },
-                    { "type": "command", "command": ".claude/scripts/ruff-check.sh" },
-                    { "type": "command", "command": ".claude/scripts/pydoclint-check.sh" },
                     { "type": "command", "command": ".claude/scripts/check-file-length.sh" },
                     { "type": "command", "command": ".claude/scripts/check-single-class.sh" },
                     { "type": "command", "command": ".claude/scripts/check-test-naming.sh" }
@@ -32,12 +31,11 @@
         "Stop": [
             {
                 "hooks": [
+                    { "type": "command", "command": ".claude/scripts/ruff-check.sh" },
+                    { "type": "command", "command": ".claude/scripts/pydoclint-check.sh" },
                     { "type": "command", "command": ".claude/scripts/ty-check.sh", "timeout": 30 }
                 ]
             }
         ]
-    },
-    "env": {
-        "CLAUDE_CODE_TASK_LIST_ID": "{{ cookiecutter.project_slug }}"
     }
 }

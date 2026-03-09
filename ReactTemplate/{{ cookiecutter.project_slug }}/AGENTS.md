@@ -22,6 +22,14 @@ React 19 + TypeScript (strict) + Vite + Biome + Vitest + Tailwind + Zod 4
 - Discriminated unions for state modeling
 - Be extremely concise
 
+### File Structure
+- One component per file — plan splits before writing
+- Keep files under 300 lines — extract hooks, utils, and sub-components early
+
+### Imports
+- Always add imports and their usage in the same edit operation
+- Use `type` imports for type-only references (`import type { Foo } from ...`)
+
 ## Commit Attribution
 AI commits MUST include:
 ```

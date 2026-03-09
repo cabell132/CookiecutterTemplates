@@ -1,14 +1,13 @@
 #!/bin/bash
-# PostToolUse hook: Run ruff check on the edited Python file
+# Stop hook: Run ruff check on all modified Python files
 
-input=$(cat)
-file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+modified_files=$(git diff --name-only --diff-filter=ACM HEAD -- '*.py' 2>/dev/null)
+untracked_files=$(git ls-files --others --exclude-standard -- '*.py' 2>/dev/null)
+all_files=$(echo -e "${modified_files}\n${untracked_files}" | grep -v '^$' | sort -u)
 
-[ -z "$file_path" ] && exit 0
-[[ "$file_path" != *.py ]] && exit 0
-[ ! -f "$file_path" ] && exit 0
+[ -z "$all_files" ] && exit 0
 
-output=$(uv run ruff check "$file_path" 2>&1)
+output=$(uv run ruff check $all_files 2>&1)
 if [ $? -ne 0 ]; then
     line_count=$(echo "$output" | wc -l)
     if [ "$line_count" -gt 30 ]; then
