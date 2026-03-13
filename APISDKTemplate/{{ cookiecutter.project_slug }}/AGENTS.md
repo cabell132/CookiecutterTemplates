@@ -3,7 +3,7 @@
 ## Code Style
 
 ### File Structure
-- Max 300 lines per file — plan splits before writing
+- Max 300 code lines per file (docstrings, comments, blanks excluded; 500 hard cap) — plan splits before writing
 - One class per file (unless in a `models/` directory or file is under 50 lines total)
 - `__init__.py` contains only imports, `__all__`, and `__version__` — no logic, no functions, no classes
 
