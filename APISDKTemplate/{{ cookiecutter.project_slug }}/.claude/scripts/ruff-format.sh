@@ -8,5 +8,6 @@ file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
 [[ "$file_path" != *.py ]] && exit 0
 
 uv run ruff format "$file_path" 2>/dev/null
+uv run ruff check --fix "$file_path" 2>/dev/null
 
 exit 0

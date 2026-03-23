@@ -9,7 +9,8 @@ file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
 [ ! -f "$file_path" ] && exit 0
 
 # Skip Pydantic model files — multiple small classes per file is normal
-[[ "$file_path" == */models/* || "$file_path" == */models.py ]] && exit 0
+# Handle both Unix (/) and Windows (\) path separators
+[[ "$file_path" == */models/* || "$file_path" == *\\models\\* || "$file_path" == */models.py || "$file_path" == *\\models.py ]] && exit 0
 
 class_count=$(grep -c '^class ' "$file_path" 2>/dev/null || echo 0)
 line_count=$(wc -l < "$file_path")

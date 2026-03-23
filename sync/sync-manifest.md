@@ -6,7 +6,7 @@ is read by `/template:drift` for audit comparisons.
 
 ## Template Source Paths
 
-All templates are at: `C:\Users\Cameron\Documents\Python Scripts\AllTemplates`
+All templates are in this repo (resolved dynamically by the `/template:*` commands).
 
 Within each template, project files are in: `<TemplateName>/{{ cookiecutter.project_slug }}/`
 
@@ -16,13 +16,14 @@ Within each template, project files are in: `<TemplateName>/{{ cookiecutter.proj
 
 ### REPLACE (copy verbatim -- no Jinja variables in these files)
 
-- `.claude/scripts/*.sh` -- all hook/script files (typically ~11 scripts)
+- `.claude/scripts/*.sh` -- all hook/script files, EXCEPT `ty-check.sh` (see RENDER below)
 - `.claude/agents/python-pro.md`
 
 ### RENDER then REPLACE (substitute Jinja variables)
 
 These files contain `{{ cookiecutter.project_slug }}` or `{{ cookiecutter.python_version }}`:
 
+- `.claude/scripts/ty-check.sh` -- needs `project_slug` for file glob scope
 - `.claude/settings.json` -- needs `project_slug` for `CLAUDE_CODE_TASK_LIST_ID`
 - `.pre-commit-config.yaml` -- needs `project_slug` (only if `enable_precommit` is "yes")
 

@@ -5,7 +5,7 @@ cookiecutter template via `/template:to-template`.
 
 ## Reference paths
 
-- **AllTemplates:** `C:\Users\Cameron\Documents\Python Scripts\AllTemplates`
+- **AllTemplates:** This repo (resolved dynamically by the `/template:*` commands)
 - **Template source files:** `<TemplateName>/{{ cookiecutter.project_slug }}/`
 
 ---
