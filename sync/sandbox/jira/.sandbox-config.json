@@ -1,0 +1,9 @@
+{
+  "provider": "jira",
+  "jira": {
+    "credentials_file": "~/.env.jira",
+    "project_config": ".jira-project.json"
+  },
+  "wip_limit": __WIP_LIMIT__,
+  "review_pipeline": true
+}

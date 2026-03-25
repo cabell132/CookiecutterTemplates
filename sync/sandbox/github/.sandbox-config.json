@@ -1,0 +1,6 @@
+{
+  "provider": "github",
+  "issue_label": "__ISSUE_LABEL__",
+  "wip_limit": 0,
+  "review_pipeline": false
+}

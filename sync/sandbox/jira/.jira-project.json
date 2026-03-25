@@ -1,0 +1,40 @@
+{
+  "projectKey": "__PROJECT_KEY__",
+  "projectName": "__PROJECT_NAME__",
+  "jiraBaseUrl": "__JIRA_BASE_URL__",
+  "boardId": __BOARD_ID__,
+  "boardType": "simple",
+  "devServer": {
+    "command": "__DEV_COMMAND__",
+    "url": "__DEV_URL__"
+  },
+  "customFields": {
+    "acceptanceCriteria": "__AC_FIELD__",
+    "components": "REPLACE_ME",
+    "storyPoints": "REPLACE_ME",
+    "platform": "REPLACE_ME",
+    "sprint": "REPLACE_ME"
+  },
+  "components": [],
+  "labels": {
+    "platforms": [],
+    "workTypes": ["feature", "bug-fix", "tech-debt", "design"],
+    "domains": []
+  },
+  "workflows": {
+    "statuses": ["Ready", "In Progress", "In Review", "Done", "Blocker"],
+    "defaultTransitions": {
+      "start": "In Progress",
+      "review": "In Review",
+      "done": "Done",
+      "block": "Blocker"
+    }
+  },
+  "issueTypes": {
+    "epic": {"name": "Epic", "id": "REPLACE_ME"},
+    "story": {"name": "Story", "id": "REPLACE_ME"},
+    "task": {"name": "Task", "id": "REPLACE_ME"},
+    "subtask": {"name": "Subtask", "id": "REPLACE_ME"},
+    "bug": {"name": "Bug", "id": "REPLACE_ME"}
+  }
+}
