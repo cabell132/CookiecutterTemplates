@@ -47,14 +47,18 @@ def write_template_meta() -> None:
             "email": "{{ cookiecutter.email }}",
         },
     }
-    (PROJECT_ROOT / ".template.json").write_text(
-        json.dumps(template_meta, indent=2) + "\n"
-    )
+    (PROJECT_ROOT / ".template.json").write_text(json.dumps(template_meta, indent=2) + "\n")
+
+
+def make_scripts_executable() -> None:
+    for script in (PROJECT_ROOT / ".claude" / "scripts").glob("*.sh"):
+        script.chmod(script.stat().st_mode | 0o755)
 
 
 def main() -> None:
     configure_options()
     write_template_meta()
+    make_scripts_executable()
 
     run(["git", "init"])
     run(["git", "add", "."])
