@@ -105,7 +105,7 @@
         "deny": [
             "Bash(rm -rf:*)",
             "Bash(git push:*)",
-            "Bash(git reset:*)"
+            "Bash(git reset --hard:*)"
         ]
     }
 }
