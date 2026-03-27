@@ -4,16 +4,31 @@
             {
                 "matcher": "Bash",
                 "hooks": [
-                    { "type": "command", "command": ".claude/scripts/enforce-uv.sh" },
-                    { "type": "command", "command": ".claude/scripts/enforce-poe.sh" },
-                    { "type": "command", "command": ".claude/scripts/enforce-safe-git.sh" }
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/enforce-uv.sh"
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/enforce-poe.sh"
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/enforce-safe-git.sh"
+                    }
                 ]
             },
             {
                 "matcher": "Write|Edit",
                 "hooks": [
-                    { "type": "command", "command": ".claude/scripts/protect-init.sh" },
-                    { "type": "command", "command": ".claude/scripts/protect-config.sh" }
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/protect-init.sh"
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/protect-config.sh"
+                    }
                 ]
             }
         ],
@@ -21,19 +36,42 @@
             {
                 "matcher": "Write|Edit",
                 "hooks": [
-                    { "type": "command", "command": ".claude/scripts/pydoclint-check.sh" },
-                    { "type": "command", "command": ".claude/scripts/check-file-length.sh" },
-                    { "type": "command", "command": ".claude/scripts/check-single-class.sh" },
-                    { "type": "command", "command": ".claude/scripts/check-test-naming.sh" }
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/ruff-format.sh"
+                    }
                 ]
             }
         ],
         "Stop": [
             {
                 "hooks": [
-                    { "type": "command", "command": ".claude/scripts/ruff-format.sh", "timeout": 30 },
-                    { "type": "command", "command": ".claude/scripts/ty-check.sh", "timeout": 30 },
-                    { "type": "command", "command": ".claude/scripts/ruff-check.sh", "timeout": 30 }
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/ruff-check.sh",
+                        "timeout": 30
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/pydoclint-check.sh"
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/ty-check.sh",
+                        "timeout": 30
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/check-file-length.sh"
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/check-single-class.sh"
+                    },
+                    {
+                        "type": "command",
+                        "command": ".claude/scripts/check-test-naming.sh"
+                    }
                 ]
             }
         ]
@@ -67,7 +105,7 @@
         "deny": [
             "Bash(rm -rf:*)",
             "Bash(git push:*)",
-            "Bash(git reset --hard:*)"
+            "Bash(git reset:*)"
         ]
     }
 }

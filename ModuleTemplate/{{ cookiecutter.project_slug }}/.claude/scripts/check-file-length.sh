@@ -1,25 +1,31 @@
 #!/bin/bash
-# PostToolUse hook: Block Python files exceeding 300 code lines
+# Stop hook: Block Python files exceeding 300 code lines
 # Code lines = total minus docstrings, comments, and blank lines
 # Hard cap: 500 total lines regardless
 
-input=$(cat)
-file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+modified_files=$(git diff --name-only --diff-filter=ACM HEAD -- '*.py' 2>/dev/null)
+untracked_files=$(git ls-files --others --exclude-standard -- '*.py' 2>/dev/null)
+all_files=$(echo -e "${modified_files}\n${untracked_files}" | grep -v '^$' | sort -u)
 
-[ -z "$file_path" ] && exit 0
-[[ "$file_path" != *.py ]] && exit 0
-[ ! -f "$file_path" ] && exit 0
+[ -z "$all_files" ] && exit 0
 
-total_lines=$(wc -l < "$file_path")
+violations=""
+for file_path in $all_files; do
+    [ ! -f "$file_path" ] && continue
 
-# Hard cap on total lines
-if [ "$total_lines" -gt 500 ]; then
-    echo "File exceeds 500 total lines ($total_lines). Split into smaller modules." >&2
-    exit 2
-fi
+    # Skip files inside models/ directories (many small model modules expected)
+    [[ "$file_path" == */models/* ]] && continue
 
-# Count code-only lines (exclude docstrings, comments, blanks) using Python ast
-code_lines=$(python3 -c "
+    total_lines=$(wc -l < "$file_path")
+
+    # Hard cap on total lines
+    if [ "$total_lines" -gt 500 ]; then
+        violations="${violations}${file_path}: ${total_lines} total lines (hard cap 500)\n"
+        continue
+    fi
+
+    # Count code-only lines (exclude docstrings, comments, blanks) using Python ast
+    code_lines=$(python3 -c "
 import ast, sys
 
 try:
@@ -54,8 +60,15 @@ except Exception:
     print(total)
 " "$file_path")
 
-if [ "$code_lines" -gt 300 ]; then
-    echo "File has $code_lines code lines (excluding docstrings/comments/blanks; $total_lines total). Split into smaller modules." >&2
+    if [ "$code_lines" -gt 300 ]; then
+        violations="${violations}${file_path}: ${code_lines} code lines (${total_lines} total)\n"
+    fi
+done
+
+if [ -n "$violations" ]; then
+    echo "=== File Length Violations ===" >&2
+    echo -e "$violations" >&2
+    echo "Split into smaller modules." >&2
     exit 2
 fi
 

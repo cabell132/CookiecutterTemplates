@@ -34,9 +34,14 @@ while i < len(lines):
         i += 1
         continue
 
-    # Skip import statements
+    # Skip import statements (including multi-line with parentheses)
     if stripped.startswith(('import ', 'from ')):
+        depth = stripped.count('(') - stripped.count(')')
         i += 1
+        while i < len(lines) and depth > 0:
+            s = lines[i].strip()
+            depth += s.count('(') - s.count(')')
+            i += 1
         continue
 
     # Skip __all__ and __version__ assignments (including multi-line)
