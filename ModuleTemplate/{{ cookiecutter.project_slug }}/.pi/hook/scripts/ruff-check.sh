@@ -11,12 +11,12 @@ output=$(uv run ruff check $all_files 2>&1)
 if [ $? -ne 0 ]; then
     line_count=$(echo "$output" | wc -l)
     if [ "$line_count" -gt 30 ]; then
-        mkdir -p .claude
-        echo "$output" > .claude/check-output.log
+        mkdir -p .pi/hook
+        echo "$output" > .pi/hook/check-output.log
         echo "=== Ruff Errors ($line_count lines — truncated) ===" >&2
         echo "$output" | head -20 >&2
         echo "..." >&2
-        echo "Full output saved to .claude/check-output.log" >&2
+        echo "Full output saved to .pi/hook/check-output.log" >&2
     else
         echo "=== Ruff Errors ===" >&2
         echo "$output" >&2

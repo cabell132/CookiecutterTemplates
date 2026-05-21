@@ -2,7 +2,7 @@
 # PreToolUse hook: No logic in __init__.py — imports and __all__ only
 
 input=$(cat)
-file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+file_path=$(echo "$input" | jq -r '.tool_args.file_path // .tool_args.path // .tool_input.file_path // .tool_input.path // empty')
 
 [ -z "$file_path" ] && exit 0
 
@@ -10,7 +10,7 @@ file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
 [[ "$(basename "$file_path")" != "__init__.py" ]] && exit 0
 
 # Get the content being written/edited
-content=$(echo "$input" | jq -r '.tool_input.content // .tool_input.new_string // empty')
+content=$(echo "$input" | jq -r '[.tool_args.content, .tool_args.newText, .tool_args.new_string, (.tool_args.edits[]?.newText), .tool_input.content, .tool_input.newText, .tool_input.new_string, (.tool_input.edits[]?.newText)] | map(select(. != null)) | join("\n")')
 
 [ -z "$content" ] && exit 0
 

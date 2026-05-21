@@ -3,7 +3,7 @@
 # Exit 2 = block with message, Exit 0 = allow
 
 input=$(cat)
-command=$(echo "$input" | jq -r '.tool_input.command // empty')
+command=$(echo "$input" | jq -r '.tool_args.command // .tool_input.command // empty')
 
 [ -z "$command" ] && exit 0
 

@@ -1,0 +1,75 @@
+hooks:
+  - id: enforce-uv
+    event: tool.before.bash
+    actions:
+      - bash: .pi/hook/scripts/enforce-uv.sh
+
+  - id: enforce-poe
+    event: tool.before.bash
+    actions:
+      - bash: .pi/hook/scripts/enforce-poe.sh
+
+  - id: enforce-safe-git
+    event: tool.before.bash
+    actions:
+      - bash: .pi/hook/scripts/enforce-safe-git.sh
+
+  - id: protect-init-write
+    event: tool.before.write
+    actions:
+      - bash: .pi/hook/scripts/protect-init.sh
+
+  - id: protect-init-edit
+    event: tool.before.edit
+    actions:
+      - bash: .pi/hook/scripts/protect-init.sh
+
+  - id: protect-config-write
+    event: tool.before.write
+    actions:
+      - bash: .pi/hook/scripts/protect-config.sh
+
+  - id: protect-config-edit
+    event: tool.before.edit
+    actions:
+      - bash: .pi/hook/scripts/protect-config.sh
+
+  - id: ruff-format-write
+    event: tool.after.write
+    actions:
+      - bash: .pi/hook/scripts/ruff-format.sh
+
+  - id: ruff-format-edit
+    event: tool.after.edit
+    actions:
+      - bash: .pi/hook/scripts/ruff-format.sh
+
+  - id: ruff-check-on-idle
+    event: session.idle
+    actions:
+      - bash: .pi/hook/scripts/ruff-check.sh
+
+  - id: pydoclint-check-on-idle
+    event: session.idle
+    actions:
+      - bash: .pi/hook/scripts/pydoclint-check.sh
+
+  - id: ty-check-on-idle
+    event: session.idle
+    actions:
+      - bash: .pi/hook/scripts/ty-check.sh
+
+  - id: check-file-length-on-idle
+    event: session.idle
+    actions:
+      - bash: .pi/hook/scripts/check-file-length.sh
+
+  - id: check-single-class-on-idle
+    event: session.idle
+    actions:
+      - bash: .pi/hook/scripts/check-single-class.sh
+
+  - id: check-test-naming-on-idle
+    event: session.idle
+    actions:
+      - bash: .pi/hook/scripts/check-test-naming.sh

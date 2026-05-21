@@ -4,7 +4,7 @@
 # modified to "fix" linting errors. Fix the code instead.
 
 input=$(cat)
-file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+file_path=$(echo "$input" | jq -r '.tool_args.file_path // .tool_args.path // .tool_input.file_path // .tool_input.path // empty')
 
 [ -z "$file_path" ] && exit 0
 
@@ -13,8 +13,9 @@ PROTECTED_FILES=(
     "pyproject.toml"
     ".pre-commit-config.yaml"
     ".claude/settings.json"
-    ".claude/scripts/"
     ".claude/agents/"
+    ".pi/hook/hooks.yaml"
+    ".pi/hook/scripts/"
 )
 
 for pattern in "${PROTECTED_FILES[@]}"; do

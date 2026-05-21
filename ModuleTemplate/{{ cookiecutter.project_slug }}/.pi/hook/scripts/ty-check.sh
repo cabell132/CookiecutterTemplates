@@ -1,8 +1,8 @@
 #!/bin/bash
 # Stop hook: Run ty type checker on modified Python files
 
-modified_files=$(git diff --name-only --diff-filter=ACM HEAD -- '{{ cookiecutter.project_slug }}/*.py' 2>/dev/null)
-untracked_files=$(git ls-files --others --exclude-standard -- '{{ cookiecutter.project_slug }}/*.py' 2>/dev/null)
+modified_files=$(git diff --name-only --diff-filter=ACM HEAD -- 'jira_sdk/*.py' 2>/dev/null)
+untracked_files=$(git ls-files --others --exclude-standard -- 'jira_sdk/*.py' 2>/dev/null)
 all_files=$(echo -e "${modified_files}\n${untracked_files}" | grep -v '^$' | sort -u)
 
 [ -z "$all_files" ] && exit 0
@@ -18,12 +18,12 @@ output=$(uv run ty check $all_files 2>&1)
 if [ $? -ne 0 ]; then
     line_count=$(echo "$output" | wc -l)
     if [ "$line_count" -gt 30 ]; then
-        mkdir -p .claude
-        echo "$output" > .claude/check-output.log
+        mkdir -p .pi/hook
+        echo "$output" > .pi/hook/check-output.log
         echo "=== ty Type Errors ($line_count lines — truncated) ===" >&2
         echo "$output" | head -20 >&2
         echo "..." >&2
-        echo "Full output saved to .claude/check-output.log" >&2
+        echo "Full output saved to .pi/hook/check-output.log" >&2
     else
         echo "=== ty Type Errors ===" >&2
         echo "$output" >&2

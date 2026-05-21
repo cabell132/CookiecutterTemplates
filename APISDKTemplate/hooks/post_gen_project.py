@@ -51,7 +51,7 @@ def write_template_meta() -> None:
 
 
 def make_scripts_executable() -> None:
-    for script in (PROJECT_ROOT / ".claude" / "scripts").glob("*.sh"):
+    for script in (PROJECT_ROOT / ".pi" / "hook" / "scripts").glob("*.sh"):
         script.chmod(script.stat().st_mode | 0o755)
 
 

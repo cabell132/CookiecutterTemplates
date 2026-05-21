@@ -1,6 +1,6 @@
 # ModuleTemplate
 
-Modern Cookiecutter template for Python modules powered by [uv](https://github.com/astral-sh/uv). Ships with a comprehensive quality enforcement stack designed for AI-assisted development with Claude.
+Modern Cookiecutter template for Python modules powered by [uv](https://github.com/astral-sh/uv). Ships with a comprehensive quality enforcement stack designed for AI-assisted development with Pi and Claude.
 
 ## Features
 
@@ -11,7 +11,7 @@ Modern Cookiecutter template for Python modules powered by [uv](https://github.c
 - **poethepoet** — Task runner (`uv run poe <task>`)
 - **pytest** + **pytest-cov** — Testing and coverage
 - **Pre-commit hooks** — ruff + ty + pydoclint before every commit
-- **Claude integration** — CLAUDE.md, AGENTS.md, stop hooks, python-pro agent
+- **Agent integration** — CLAUDE.md, AGENTS.md, Pi YAML hooks, python-pro agent
 - **GitHub Actions CI** — lint + typecheck + doclint + test
 - Optional **Typer CLI** skeleton
 - Optional **MkDocs + Material** documentation

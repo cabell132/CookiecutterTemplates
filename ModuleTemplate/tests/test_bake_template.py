@@ -58,16 +58,20 @@ def test_bake_default(cookies):
         assert data["name"] == "CI"
 
 
-def test_bake_has_claude_integration(cookies):
-    """Baked project includes full Claude integration."""
+def test_bake_has_agent_integrations(cookies):
+    """Baked project includes Claude docs and Pi hooks."""
     with bake(cookies) as result:
         assert result.exit_code == 0
 
         claude_dir = result.project_path / ".claude"
         assert claude_dir.is_dir()
-        assert (claude_dir / "SETTINGS.JSON").is_file()
-        assert (claude_dir / "hooks" / "lint.sh").is_file()
+        assert (claude_dir / "settings.json").is_file()
         assert (claude_dir / "agents" / "python-pro.md").is_file()
+
+        pi_hook_dir = result.project_path / ".pi" / "hook"
+        assert (pi_hook_dir / "hooks.yaml").is_file()
+        assert (pi_hook_dir / "scripts" / "ruff-check.sh").is_file()
+        assert (pi_hook_dir / "scripts" / "enforce-uv.sh").is_file()
 
         claude_md = result.project_path.joinpath("CLAUDE.md").read_text()
         assert "uv run poe lint" in claude_md
