@@ -57,8 +57,6 @@ Implement using vertical TDD slices. For each behavior in the task:
 3. Commit with this format:
    ```
    AFK: <type>(<scope>): <desc> (#<issue>)
-
-   Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
    ```
 
 ## ISSUE LIFECYCLE

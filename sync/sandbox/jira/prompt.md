@@ -48,8 +48,6 @@ Commit format:
   - Change 1
   - Change 2
 
-  Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-
 ## Step 6: Create PR
 gh pr create --base main --title "{{STORY_KEY}}: <summary>" --body "..."
 

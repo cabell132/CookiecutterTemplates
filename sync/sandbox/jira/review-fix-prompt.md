@@ -32,9 +32,7 @@ Fix any failures. Retry up to 3 times.
 
 ```bash
 git add <specific-files>
-git commit -m "{{STORY_KEY}} fix: <description>
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+git commit -m "{{STORY_KEY}} fix: <description>"
 git push
 ```
 
